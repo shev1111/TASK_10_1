@@ -2,73 +2,103 @@ package com.shev.service;
 
 import com.shev.model.LapTop;
 import com.shev.model.LapTopTechSpec;
+import org.apache.log4j.Logger;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.Iterator;
 
 
-public class AmazonService {
+public class AmazonServiceItemRetrieve {
+    static Logger logger = Logger.getLogger(AmazonServiceItemRetrieve.class.getName());
     private String url;
     private static Document document;
     private final static String US_PROXY_IP = "205.145.146.174";
     private final static int US_PROXY_IP_PORT = 41004;
 
-    public AmazonService(String url) {
+    public AmazonServiceItemRetrieve(String url) {
         this.url = url;
         //throws java.net.ConnectException: Connection timed out: connect and java.net.SocketException: Connection reset
         try {
-            document = Jsoup.connect(this.url)
+            Connection.Response response = Jsoup.connect(this.url)
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0")
                     .maxBodySize(0)
-                    .timeout(600000)
+                    .timeout(6000000)
                     .proxy(US_PROXY_IP,US_PROXY_IP_PORT)
-                    .get();
+                    .execute();
+            int statusCode = response.statusCode();
+            if (statusCode==200){
+                document = response.parse();
+                logger.info("response code 200 "+"url = "+this.url);
+                logger.info("document object assigned");
+            }else {
+                logger.error("response code: "+response.statusCode());
+                logger.error("response status message: "+response.statusMessage());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private String getASIN(){
-        Element table = document.select("table#productDetails_detailBullets_sections1").first();
-        Elements rows = table.select("tr");
-        Iterator<Element> rowIterator = rows.iterator();
-        String asin = null;
-        while (rowIterator.hasNext()){
-            Element row = rowIterator.next();
-            Elements colHeaders = row.select("th");
-            Elements col = row.select("td");
-            String headerName = colHeaders.text();
-            switch (headerName){
-                case "ASIN":asin = col.text();return asin;
+        if(document!=null){
+            Element table = document.select("table#productDetails_detailBullets_sections1").first();
+            Elements rows = table.select("tr");
+            Iterator<Element> rowIterator = rows.iterator();
+
+            while (rowIterator.hasNext()){
+                Element row = rowIterator.next();
+                Elements colHeaders = row.select("th");
+                Elements col = row.select("td");
+                String headerName = colHeaders.text();
+                switch (headerName){
+                    case "ASIN": return col.text();
+                }
             }
         }
-        return asin;
+        return null;
     }
 
-    private int getPriceCents(){
-        String stringPrice = document.select("span#price_inside_buybox").text();
-        //$1,147.00
-        if (stringPrice.equals("")){
-            stringPrice=document.select("span#priceblock_ourprice").text();
-        }
+    private Integer getPriceCents(){
 
-        String stringPriceCents = stringPrice.replaceAll("[$,.]","");
-        /*if  java.lang.NumberFormatException: For input string: "" write it to log with url*/
-        return Integer.valueOf(stringPriceCents);
+        if(document!=null){
+            try {
+                String stringPrice = document.select("span#price_inside_buybox").text();
+                if (stringPrice.equals("")){
+                    stringPrice=document.select("span#priceblock_ourprice").text();
+                }
+
+                String stringPriceCents = stringPrice.replaceAll("[$,.]","");
+                return Integer.valueOf(stringPriceCents);
+            } catch (NumberFormatException e) {
+                //LOG /*if  java.lang.NumberFormatException: For input string: "" write it to log with url*/
+                e.printStackTrace();
+            }
+        }
+        return null;
 
     }
 
     private String getAvailability(){
-        String availability = document.select("div#availability").text();
-        return availability.replace(".", "");
+        if(document!=null){
+            String availability = document.select("div#availability").text();
+            return availability.replace(".", "");
+        }
+        return null;
+
     }
 
     private String getProductTitle(){
-        return document.select("span#productTitle").text();
+        if(document!=null){
+           return document.select("span#productTitle").text();
+        }
+        return null;
+
     }
 
     private LapTopTechSpec lapTopTechSpec(){
