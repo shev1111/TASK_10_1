@@ -1,4 +1,4 @@
-package com.shev.amazon_data.selenium_util;
+package com.shev.amazon_data.utils.selenium_util;
 
 public class Timer {
     public static void waitSeconds(int seconds){

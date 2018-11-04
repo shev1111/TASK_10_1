@@ -1,13 +1,8 @@
-package com.shev.amazon_data.selenium_util;
+package com.shev.amazon_data.utils.selenium_util;
 
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverManager {
