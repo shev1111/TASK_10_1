@@ -35,4 +35,9 @@ public class LapTop extends Item {
         LapTop lapTop = (LapTop) obj;
         return this.getAsin().equals(lapTop.getAsin());
     }
+
+    @Override
+    public int hashCode() {
+        return this.getAsin().hashCode();
+    }
 }
