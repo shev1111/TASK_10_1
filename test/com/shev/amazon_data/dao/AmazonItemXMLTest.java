@@ -21,14 +21,14 @@ public class AmazonItemXMLTest {
     @Test
     public void addLapTopDataToXML() throws Exception {
         AmazonItemXML.addLapTopDataToXML(lapTop);
-        LapTop testLapTop = AmazonItemXML.findLapTopASIN(lapTop.getAsin(), XML_FILE);
+        LapTop testLapTop = AmazonItemXML.findLapTopByASIN(lapTop.getAsin(), XML_FILE);
         assertEquals(lapTop,testLapTop);
     }
 
     @Test
     public void findLapTopASIN(){
         String expASIN = "B078WRSHV4";
-        LapTop testLaptop = AmazonItemXML.findLapTopASIN(lapTop.getAsin(), XML_FILE);
+        LapTop testLaptop = AmazonItemXML.findLapTopByASIN(lapTop.getAsin(), XML_FILE);
         assertNotNull(testLaptop);
         assertEquals(testLaptop.getAsin(),expASIN);
     }

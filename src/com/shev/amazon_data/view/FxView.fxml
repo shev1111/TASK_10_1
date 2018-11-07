@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="330.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <TabPane prefHeight="250.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab text="Search Item Info">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TextField fx:id="linkText" layoutX="84.0" layoutY="25.0" prefWidth="200.0" />
+                <TextField fx:id="asinText" layoutX="84.0" layoutY="73.0" prefWidth="200.0" />
+                <Button fx:id="getDataBatton" layoutX="15.0" layoutY="125.0" mnemonicParsing="false" text="Get Item data" />
+                <RadioButton fx:id="linkRbutton" layoutX="11.0" layoutY="28.0" mnemonicParsing="false" text="Item link" />
+                <RadioButton fx:id="asinRbutton" layoutX="11.0" layoutY="76.0" mnemonicParsing="false" text="ASIN" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Registrate account">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TextField fx:id="nameRegText" layoutX="84.0" layoutY="36.0" prefWidth="200.0" />
+                <TextField fx:id="loginRegText" layoutX="84.0" layoutY="73.0" prefWidth="200.0" />
+                <TextField fx:id="passRegText" layoutX="84.0" layoutY="106.0" prefWidth="200.0" />
+                <Text layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME" />
+                <Text layoutX="14.0" layoutY="88.0" scaleX="1.0040315512708151" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EMAIL" />
+                <Text layoutX="14.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD" />
+                <Button fx:id="registerButton" layoutX="14.0" layoutY="145.0" mnemonicParsing="false" text="Registrate account" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Add Item to cart">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TextField fx:id="loginCartText" layoutX="84.0" layoutY="36.0" prefWidth="200.0" />
+                <TextField fx:id="asinCartText" layoutX="84.0" layoutY="73.0" prefWidth="200.0" />
+                <Text layoutX="14.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOGIN" />
+                <Text layoutX="14.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ASIN" />
+                <Button fx:id="addToCartButton" layoutX="15.0" layoutY="125.0" mnemonicParsing="false" text="Add to cart" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
+</AnchorPane>

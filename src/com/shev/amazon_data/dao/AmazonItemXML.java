@@ -30,7 +30,8 @@ public class AmazonItemXML {
         private static final String XML_FILE = USER_DIR+SEP+"src"+SEP+"com"+SEP+"shev"+SEP+"amazon_data"+SEP+"data"+SEP+"amazon_item_data.xml";
 
         public static void addLapTopDataToXML(LapTop lapTop){
-            if (lapTop!=null){
+            boolean isExists = lapTop.getAsin().equals(findLapTopByASIN(lapTop.getAsin(), XML_FILE).getAsin());
+            if (lapTop!=null&&isExists){
                 logger.info("Write lapTop data to xml file "+ lapTop.toString());
                 try {
                     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -179,6 +180,9 @@ public class AmazonItemXML {
                     logger.error("XML file error: "+e.getMessage());
                 }
             }else {
+                if(isExists){
+                    logger.info("laptop with asin "+lapTop.getAsin()+ " already exists");
+                }
                 logger.error("laptop data were not added to xml file");
             }
 
@@ -186,7 +190,7 @@ public class AmazonItemXML {
 
         }
 
-        public static LapTop findLapTopASIN(String asin, String xmlFilePath){
+        public static LapTop findLapTopByASIN(String asin, String xmlFilePath){
             LapTop lapTop = null;
             LapTopTechSpec lapTopTechSpec;
             File fileXML = new File(xmlFilePath);
