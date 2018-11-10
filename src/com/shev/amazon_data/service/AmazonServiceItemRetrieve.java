@@ -28,7 +28,7 @@ public class AmazonServiceItemRetrieve {
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:64.0) Gecko/20100101 Firefox/64.0")
                     .maxBodySize(0)
                     .timeout(6000000)
-                    .proxy(US_PROXY_IP,US_PROXY_IP_PORT)
+                    //.proxy(US_PROXY_IP,US_PROXY_IP_PORT)
                     .execute();
             int statusCode = response.statusCode();
             if (statusCode==200){

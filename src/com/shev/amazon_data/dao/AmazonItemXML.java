@@ -30,159 +30,151 @@ public class AmazonItemXML {
         private static final String XML_FILE = USER_DIR+SEP+"src"+SEP+"com"+SEP+"shev"+SEP+"amazon_data"+SEP+"data"+SEP+"amazon_item_data.xml";
 
         public static void addLapTopDataToXML(LapTop lapTop){
-            boolean isExists = lapTop.getAsin().equals(findLapTopByASIN(lapTop.getAsin(), XML_FILE).getAsin());
-            if (lapTop!=null&&isExists){
-                logger.info("Write lapTop data to xml file "+ lapTop.toString());
-                try {
-                    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-                    // root elements
-                    Document doc;
-                    Element rootElement;
+            if (lapTop!=null){
+                boolean isExists = lapTop.getAsin().equals(findLapTopByASIN(lapTop.getAsin(), XML_FILE).getAsin());
+                if (!isExists) {
+                    logger.info("Write lapTop data to xml file "+ lapTop.toString());
+                    try {
+                        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-                    if (new File(XML_FILE).exists()) {
-                        doc = docBuilder.parse(XML_FILE);
-                        rootElement = doc.getDocumentElement();
+                        // root elements
+                        Document doc;
+                        Element rootElement;
 
-                    } else {
-                        doc = docBuilder.newDocument();
-                        rootElement = doc.createElement("amazon_data");
-                        doc.appendChild(rootElement);
+                        if (new File(XML_FILE).exists()) {
+                            doc = docBuilder.parse(XML_FILE);
+                            rootElement = doc.getDocumentElement();
+
+                        } else {
+                            doc = docBuilder.newDocument();
+                            rootElement = doc.createElement("amazon_data");
+                            doc.appendChild(rootElement);
+                        }
+
+
+                        // item element
+                        Element item = doc.createElement("Item");
+                        rootElement.appendChild(item);
+
+                        // set asin attribute to item element
+                        Attr asinAttr = doc.createAttribute("asin");
+                        if(lapTop.getAsin()!=null){
+                            asinAttr.setValue(lapTop.getAsin());
+                            item.setAttributeNode(asinAttr);
+                        }
+
+                        // set type element
+                        Element type = doc.createElement("type");
+                        type.appendChild(doc.createTextNode("laptop"));
+                        item.appendChild(type);
+
+                        //set itemTitle
+                        Element productTitle = doc.createElement("product_title");
+                        if(lapTop.getProductTitle()!=null){
+                            productTitle.appendChild(doc.createTextNode(lapTop.getProductTitle()));
+                            item.appendChild(productTitle);
+                        }
+
+                        //set itemPrice
+                        Element price = doc.createElement("cent_price");
+                        if(lapTop.getPriceCents()!=0){
+                            price.appendChild(doc.createTextNode(String.valueOf(lapTop.getPriceCents())));
+                            item.appendChild(price);
+                        }
+
+                        //set availability
+                        Element availability = doc.createElement("availability");
+                        if(lapTop.getAvailability()!=null){
+                            availability.appendChild(doc.createTextNode(lapTop.getAvailability()));
+                            item.appendChild(availability);
+                        }
+
+
+                        //set screenSize
+                        Element screenSize = doc.createElement("screen_size");
+                        if(lapTop.getTechSpec().getScreenSize()!=null){
+                            screenSize.appendChild(doc.createTextNode(lapTop.getTechSpec().getScreenSize()));
+                            item.appendChild(screenSize);
+                        }
+
+
+                        //set maxScreenResolution
+                        Element maxScreenResolution = doc.createElement("max_screen_resolution");
+                        if (lapTop.getTechSpec().getMaxScreenResolution()!=null){
+                            maxScreenResolution.appendChild(doc.createTextNode(lapTop.getTechSpec().getMaxScreenResolution()));
+                            item.appendChild(maxScreenResolution);
+                        }
+
+
+                        //set processor
+                        Element processor = doc.createElement("processor");
+                        if(lapTop.getTechSpec().getProcessor()!=null){
+                            processor.appendChild(doc.createTextNode(lapTop.getTechSpec().getProcessor()));
+                            item.appendChild(processor);
+                        }
+
+                        //set ram
+                        Element ram = doc.createElement("ram");
+                        if(lapTop.getTechSpec().getRam()!=null){
+                            ram.appendChild(doc.createTextNode(lapTop.getTechSpec().getRam()));
+                            item.appendChild(ram);
+                        }
+
+
+                        //set hardDrive
+                        Element hardDrive = doc.createElement("hard_drive");
+                        if(lapTop.getTechSpec().getHardDrive()!=null){
+                            hardDrive.appendChild(doc.createTextNode(lapTop.getTechSpec().getHardDrive()));
+                            item.appendChild(hardDrive);
+                        }
+
+
+                        //set graphicsCoprocessor
+                        Element graphicsCoprocessor = doc.createElement("graphics_coprocessor");
+                        if(lapTop.getTechSpec().getGraphicsCoprocessor()!=null){
+                            graphicsCoprocessor.appendChild(doc.createTextNode(lapTop.getTechSpec().getGraphicsCoprocessor()));
+                            item.appendChild(graphicsCoprocessor);
+                        }
+
+
+                        //set graphicsCoprocessor
+                        Element cardDescription = doc.createElement("card_description");
+                        if(lapTop.getTechSpec().getCardDescription()!=null){
+                            cardDescription.appendChild(doc.createTextNode(lapTop.getTechSpec().getCardDescription()));
+                            item.appendChild(cardDescription);
+                        }
+
+
+                        //set wirelessType
+                        Element wirelessType = doc.createElement("wireless_type");
+                        if(lapTop.getTechSpec().getWirelessType()!=null){
+                            wirelessType.appendChild(doc.createTextNode(lapTop.getTechSpec().getWirelessType()));
+                            item.appendChild(wirelessType);
+                        }
+
+                        //set numberOfUSB3Ports
+                        Element numberOfUSB3Ports = doc.createElement("number_of_usb3_ports");
+                        if(lapTop.getTechSpec().getNumberOfUSB3Ports()!=null){
+                            numberOfUSB3Ports.appendChild(doc.createTextNode(lapTop.getTechSpec().getNumberOfUSB3Ports()));
+                            item.appendChild(numberOfUSB3Ports);
+                        }
+
+                        // write the content into xml file
+                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                        Transformer transformer = transformerFactory.newTransformer();
+                        DOMSource source = new DOMSource(doc);
+                        StreamResult result = new StreamResult(XML_FILE);
+                        transformer.transform(source, result);
+
+                    } catch (ParserConfigurationException|IOException|TransformerException|SAXException e) {
+                        logger.error("XML file error: "+e.getMessage());
                     }
-
-
-                    // item element
-                    Element item = doc.createElement("Item");
-                    rootElement.appendChild(item);
-
-                    // set asin attribute to item element
-                    Attr asinAttr = doc.createAttribute("asin");
-                    if(lapTop.getAsin()!=null){
-                        asinAttr.setValue(lapTop.getAsin());
-                        item.setAttributeNode(asinAttr);
-                    }
-
-                    // set type element
-                    Element type = doc.createElement("type");
-                    type.appendChild(doc.createTextNode("laptop"));
-                    item.appendChild(type);
-
-                    //set itemTitle
-                    Element productTitle = doc.createElement("product_title");
-                    if(lapTop.getProductTitle()!=null){
-                        productTitle.appendChild(doc.createTextNode(lapTop.getProductTitle()));
-                        item.appendChild(productTitle);
-                    }
-
-                    //set itemPrice
-                    Element price = doc.createElement("cent_price");
-                    if(lapTop.getPriceCents()!=0){
-                        price.appendChild(doc.createTextNode(String.valueOf(lapTop.getPriceCents())));
-                        item.appendChild(price);
-                    }
-
-                    //set availability
-                    Element availability = doc.createElement("availability");
-                    if(lapTop.getAvailability()!=null){
-                        availability.appendChild(doc.createTextNode(lapTop.getAvailability()));
-                        item.appendChild(availability);
-                    }
-
-
-                    //set screenSize
-                    Element screenSize = doc.createElement("screen_size");
-                    if(lapTop.getTechSpec().getScreenSize()!=null){
-                        screenSize.appendChild(doc.createTextNode(lapTop.getTechSpec().getScreenSize()));
-                        item.appendChild(screenSize);
-                    }
-
-
-                    //set maxScreenResolution
-                    Element maxScreenResolution = doc.createElement("max_screen_resolution");
-                    if (lapTop.getTechSpec().getMaxScreenResolution()!=null){
-                        maxScreenResolution.appendChild(doc.createTextNode(lapTop.getTechSpec().getMaxScreenResolution()));
-                        item.appendChild(maxScreenResolution);
-                    }
-
-
-                    //set processor
-                    Element processor = doc.createElement("processor");
-                    if(lapTop.getTechSpec().getProcessor()!=null){
-                        processor.appendChild(doc.createTextNode(lapTop.getTechSpec().getProcessor()));
-                        item.appendChild(processor);
-                    }
-
-                    //set ram
-                    Element ram = doc.createElement("ram");
-                    if(lapTop.getTechSpec().getRam()!=null){
-                        ram.appendChild(doc.createTextNode(lapTop.getTechSpec().getRam()));
-                        item.appendChild(ram);
-                    }
-
-
-                    //set hardDrive
-                    Element hardDrive = doc.createElement("hard_drive");
-                    if(lapTop.getTechSpec().getHardDrive()!=null){
-                        hardDrive.appendChild(doc.createTextNode(lapTop.getTechSpec().getHardDrive()));
-                        item.appendChild(hardDrive);
-                    }
-
-
-                    //set graphicsCoprocessor
-                    Element graphicsCoprocessor = doc.createElement("graphics_coprocessor");
-                    if(lapTop.getTechSpec().getGraphicsCoprocessor()!=null){
-                        graphicsCoprocessor.appendChild(doc.createTextNode(lapTop.getTechSpec().getGraphicsCoprocessor()));
-                        item.appendChild(graphicsCoprocessor);
-                    }
-
-
-                    //set graphicsCoprocessor
-                    Element cardDescription = doc.createElement("card_description");
-                    if(lapTop.getTechSpec().getCardDescription()!=null){
-                        cardDescription.appendChild(doc.createTextNode(lapTop.getTechSpec().getCardDescription()));
-                        item.appendChild(cardDescription);
-                    }
-
-
-                    //set wirelessType
-                    Element wirelessType = doc.createElement("wireless_type");
-                    if(lapTop.getTechSpec().getWirelessType()!=null){
-                        wirelessType.appendChild(doc.createTextNode(lapTop.getTechSpec().getWirelessType()));
-                        item.appendChild(wirelessType);
-                    }
-
-                    //set numberOfUSB3Ports
-                    Element numberOfUSB3Ports = doc.createElement("number_of_usb3_ports");
-                    if(lapTop.getTechSpec().getNumberOfUSB3Ports()!=null){
-                        numberOfUSB3Ports.appendChild(doc.createTextNode(lapTop.getTechSpec().getNumberOfUSB3Ports()));
-                        item.appendChild(numberOfUSB3Ports);
-                    }
-
-                    // write the content into xml file
-                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                    Transformer transformer = transformerFactory.newTransformer();
-                    DOMSource source = new DOMSource(doc);
-                    StreamResult result = new StreamResult(XML_FILE);
-                    transformer.transform(source, result);
-
-
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                    logger.error("XML file error: "+e.getMessage());
-                } catch (TransformerConfigurationException e) {
-                    logger.error("XML file error: "+e.getMessage());
-                } catch (TransformerException e) {
-                    logger.error("XML file error: "+e.getMessage());
-                } catch (SAXException e) {
-                    logger.error("XML file error: "+e.getMessage());
-                } catch (IOException e) {
-                    logger.error("XML file error: "+e.getMessage());
-                }
-            }else {
-                if(isExists){
+                } else {
                     logger.info("laptop with asin "+lapTop.getAsin()+ " already exists");
                 }
+            }else {
                 logger.error("laptop data were not added to xml file");
             }
 
@@ -191,7 +183,8 @@ public class AmazonItemXML {
         }
 
         public static LapTop findLapTopByASIN(String asin, String xmlFilePath){
-            LapTop lapTop = null;
+            LapTop lapTop = new LapTop();
+            lapTop.setAsin("----");
             LapTopTechSpec lapTopTechSpec;
             File fileXML = new File(xmlFilePath);
             try {
@@ -199,7 +192,6 @@ public class AmazonItemXML {
                 org.jsoup.nodes.Document doc = Jsoup.parse(fis, null, "",Parser.xmlParser());
                 for (org.jsoup.nodes.Element amazonItem:doc.getElementsByTag("Item")) {
                     if( asin!=null && amazonItem.attr("asin").equals(asin)){
-                        lapTop = new LapTop();
                         lapTopTechSpec = new LapTopTechSpec();
                         lapTop.setAsin(amazonItem.attr("asin"));
                         lapTop.setProductTitle(amazonItem.getElementsByTag("product_title").text());
