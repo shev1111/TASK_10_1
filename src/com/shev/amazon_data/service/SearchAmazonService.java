@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 
 public class SearchAmazonService {
 
+/*@param String Amazon Standard Identification Number (ASIN)
+* @return String url of product which responds to ASIN*/
     public static String searchByASIN(String asin){
         WebDriver webDriver = RegisterService.signInUser("isaiha.zuri@lnvoke.org", "qwertyytrewq");
         Timer.waitSeconds(3);
