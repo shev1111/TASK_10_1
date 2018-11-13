@@ -75,9 +75,8 @@ public class AmazonServiceItemRetrieve {
                 String stringPriceCents = stringPrice.replaceAll("[$,.]","");
                 return Integer.valueOf(stringPriceCents);
             } catch (NumberFormatException e) {
-                //LOG /*if  java.lang.NumberFormatException: For input string: "" write it to log with url*/
                 logger.error(e.getMessage());
-                e.printStackTrace();
+                return 0;
             }
         }
         return null;
@@ -127,7 +126,7 @@ public class AmazonServiceItemRetrieve {
     }
 
     public LapTop getLapTop(){
-        if(document!=null&& AmazonUtil.notNull(getASIN(),getProductTitle(),getAvailability(),lapTopTechSpec(), getPriceCents()))
+        if(document!=null && AmazonUtil.notNull(getASIN(),getProductTitle(),getAvailability(),lapTopTechSpec(), getPriceCents()))
         {
             logger.info("get laptop data from url = "+this.url);
             return new LapTop(getASIN(),

@@ -48,6 +48,32 @@ public class RegisterService {
 
     }
 
+    public static WebDriver signInUser(String email, String userPassword){
+        WebDriver webDriver = WebDriverManager.getChromeWebDriver();
+        webDriver.get("https://www.amazon.com/ap/signin?_encoding=UTF8&" +
+                "ignoreAuthState=1&openid.assoc_handle=usflex&openid.claimed_id=http%3A%2F%2Fspecs.openid.net" +
+                "%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2" +
+                "Fidentifier_select&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0" +
+                "&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&openid.pape.max_auth_age=0" +
+                "&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fref%3Dnav_signin&switch_account=");
+        Timer.waitSeconds(3);
+        WebElement login = webDriver.findElement(By.id("ap_email"));
+        WebElement pass = webDriver.findElement(By.id("ap_password"));
+        WebElement signIn = webDriver.findElement(By.id("signInSubmit"));
+        Timer.waitSeconds(3);
+        login.sendKeys(email);
+        Timer.waitSeconds(3);
+        pass.sendKeys(userPassword);
+        Timer.waitSeconds(3);
+        signIn.submit();
+        Timer.waitSeconds(3);
+        String currentPage = webDriver.getCurrentUrl();
+        webDriver.get(currentPage);
+        Timer.waitSeconds(10);
+        return webDriver;
+
+    }
+
     public static boolean checkIfRegistered (WebDriver driver, String inputUserName) {
         String checkUserName;
         try {
@@ -69,4 +95,5 @@ public class RegisterService {
         return false;
 
     }
+
 }
