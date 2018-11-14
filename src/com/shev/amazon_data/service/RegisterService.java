@@ -3,10 +3,7 @@ package com.shev.amazon_data.service;
 import com.shev.amazon_data.utils.selenium_util.Timer;
 import com.shev.amazon_data.utils.selenium_util.WebDriverManager;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 public class RegisterService {
 

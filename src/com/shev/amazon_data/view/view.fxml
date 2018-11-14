@@ -35,7 +35,7 @@
                 <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME" />
                 <Text layoutX="14.0" layoutY="78.0" scaleX="1.0040315512708151" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EMAIL" />
                 <Text layoutX="14.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD" />
-                <Button fx:id="registerButton" layoutX="14.0" layoutY="135.0" mnemonicParsing="false" text="Registrate account" />
+                <Button fx:id="registerButton" layoutX="14.0" layoutY="135.0" mnemonicParsing="false" onAction="#registerAccount" text="Registrate account" />
                 <TextArea fx:id="resultRegisterAccount" layoutX="291.0" layoutY="25.0" prefHeight="180.0" prefWidth="200.0" wrapText="true" />
               </children>
             </AnchorPane>

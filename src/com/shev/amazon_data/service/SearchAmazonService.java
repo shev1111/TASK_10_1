@@ -24,6 +24,8 @@ public class SearchAmazonService {
         Timer.waitSeconds(3);
         WebElement resultElement = webDriver.findElement(By.id("result_0"));
         WebElement aTagElement = resultElement.findElement(By.tagName("a"));
-        return aTagElement.getAttribute("href");
+        String link = aTagElement.getAttribute("href");
+        webDriver.quit();
+        return link;
     }
 }

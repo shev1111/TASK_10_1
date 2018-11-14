@@ -1,12 +1,16 @@
 package com.shev.amazon_data.controller;
 
 import com.shev.amazon_data.service.AmazonServiceItemRetrieve;
+import com.shev.amazon_data.service.RegisterService;
+import com.shev.amazon_data.service.SearchAmazonService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.openqa.selenium.WebDriver;
 
+import javax.naming.directory.SearchControls;
 import java.awt.event.ActionEvent;
 
 public class Controller {
@@ -37,6 +41,8 @@ public class Controller {
     private Button addToCartButton;
     @FXML
     private TextArea resultSearchItemInfo;
+    @FXML
+    private TextArea resultRegisterAccount;
 
     @FXML
     private void initialize(){
@@ -53,9 +59,32 @@ public class Controller {
             resultSearchItemInfo.appendText(amazonService.getLapTop().toString());
         }
         if(asinRbutton.isSelected()) {
-            System.out.println("asin");
+            resultSearchItemInfo.clear();
+            String itemUrl = SearchAmazonService.searchByASIN(asinText.getText());
+            AmazonServiceItemRetrieve amazonService = new AmazonServiceItemRetrieve(itemUrl);
+            resultSearchItemInfo.appendText(amazonService.getLapTop().toString());
         }
     }
+
+    @FXML
+    private void registerAccount(javafx.event.ActionEvent actionEvent){
+        if(nameRegText.getText().equals("")||loginRegText.getText().equals("")||passRegText.getText().equals("")){
+            resultRegisterAccount.clear();
+            resultRegisterAccount.appendText("name, login, password fields must not be empty!");
+        }else {
+          WebDriver webDriver = RegisterService.registerUser(nameRegText.getText(),loginRegText.getText(), passRegText.getText());
+          if(RegisterService.checkIfRegistered(webDriver, nameRegText.getText())){
+              resultRegisterAccount.clear();
+              resultRegisterAccount.appendText("user "+nameRegText.getText() +" was registered successfully");
+              webDriver.quit();
+          }else {
+              resultRegisterAccount.clear();
+              resultRegisterAccount.appendText("user "+nameRegText.getText() +" was not registered try to change login");
+              webDriver.quit();
+          }
+        }
+    }
+
 
 
 
