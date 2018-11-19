@@ -1,8 +1,13 @@
 package com.shev.amazon_data.utils.selenium_util;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverManager {
@@ -19,4 +24,6 @@ public class WebDriverManager {
         Timer.waitSeconds(2);
         return driver;
     }
+
+
 }

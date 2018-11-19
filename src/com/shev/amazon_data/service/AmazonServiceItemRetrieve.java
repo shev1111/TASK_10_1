@@ -1,5 +1,6 @@
 package com.shev.amazon_data.service;
 
+import com.shev.amazon_data.model.Item;
 import com.shev.amazon_data.model.LapTop;
 import com.shev.amazon_data.model.LapTopTechSpec;
 import com.shev.amazon_data.utils.AmazonUtil;
@@ -41,6 +42,8 @@ public class AmazonServiceItemRetrieve {
             }
         } catch (IOException e ) {
             logger.error(e.getMessage() + " for url = " + this.url);
+        } catch (IllegalArgumentException e){
+            logger.error(e.getMessage());
         }
     }
 
@@ -123,6 +126,20 @@ public class AmazonServiceItemRetrieve {
             }
         }
         return lapTopTechSpec;
+    }
+
+    public Item getSimpleItem(){
+        if(document!=null && AmazonUtil.notNull(getASIN(),getProductTitle(),getAvailability(), getPriceCents()))
+        {
+            logger.info("get laptop data from url = "+this.url);
+            return new LapTop(getASIN(),
+                    getProductTitle(),
+                    getPriceCents(),
+                    getAvailability(),
+                    lapTopTechSpec());
+        }
+        logger.error("LapTop object was not created, check url "+this.url);
+        return null;
     }
 
     public LapTop getLapTop(){

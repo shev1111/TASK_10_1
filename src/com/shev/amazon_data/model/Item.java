@@ -48,4 +48,12 @@ public abstract class Item {
         this.availability = availability;
     }
 
+    @Override
+    public String toString() {
+        return "AmazonItem:" +
+                "\nasin='" + asin + '\'' +
+                ",\nproductTitle ='" + productTitle + '\'' +
+                ",\npriceCents =" + priceCents +
+                ",\navailability ='" + availability;
+    }
 }
