@@ -50,7 +50,7 @@ public abstract class Item {
 
     @Override
     public String toString() {
-        return "AmazonItem:" +
+        return "Amazon Item:" +
                 "\nasin='" + asin + '\'' +
                 ",\nproductTitle ='" + productTitle + '\'' +
                 ",\npriceCents =" + priceCents +

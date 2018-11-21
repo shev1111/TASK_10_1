@@ -63,7 +63,7 @@ public class BuyingService {
         return false;
     }
 
-    private static boolean checkIfItemAddedToCart(WebDriver webDriver){
+    public static boolean checkIfItemAddedToCart(WebDriver webDriver){
         try {
             WebElement orderConfirm = webDriver.findElement(By.id("huc-v2-order-row-confirm-text"));
             if(orderConfirm.getText().contains("Added to Cart"))return true;

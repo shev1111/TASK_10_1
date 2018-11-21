@@ -3,6 +3,7 @@ package com.shev.amazon_data.service;
 import com.shev.amazon_data.model.Item;
 import com.shev.amazon_data.model.LapTop;
 import com.shev.amazon_data.model.LapTopTechSpec;
+import com.shev.amazon_data.model.SimpleItem;
 import com.shev.amazon_data.utils.AmazonUtil;
 import org.apache.log4j.Logger;
 import org.jsoup.Connection;
@@ -128,17 +129,27 @@ public class AmazonServiceItemRetrieve {
         return lapTopTechSpec;
     }
 
-    public Item getSimpleItem(){
+    public String getTypeOfItem(){
+        if(document!=null){
+            Element wayFindingElement = document.select("div#wayfinding-breadcrumbs_feature_div").first();
+            Element itemTypeElement = wayFindingElement.select("li").last();
+            Element linkToTypeElement = itemTypeElement.select("a").first();
+            String ItemType = linkToTypeElement.text();
+            return ItemType;
+        }
+        return null;
+    }
+
+    public SimpleItem getSimpleItem(){
         if(document!=null && AmazonUtil.notNull(getASIN(),getProductTitle(),getAvailability(), getPriceCents()))
         {
             logger.info("get laptop data from url = "+this.url);
-            return new LapTop(getASIN(),
+            return new SimpleItem(getASIN(),
                     getProductTitle(),
                     getPriceCents(),
-                    getAvailability(),
-                    lapTopTechSpec());
+                    getAvailability());
         }
-        logger.error("LapTop object was not created, check url "+this.url);
+        logger.error("Simple object was not created, check url "+this.url);
         return null;
     }
 
@@ -155,5 +166,12 @@ public class AmazonServiceItemRetrieve {
         logger.error("LapTop object was not created, check url "+this.url);
         return null;
     }
+
+    public Item getItem(){
+        String itemType = getTypeOfItem();
+        if (itemType.contains("Laptops"))return getLapTop();
+        return getSimpleItem();
+    }
+
 
 }

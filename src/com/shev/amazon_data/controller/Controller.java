@@ -1,5 +1,6 @@
 package com.shev.amazon_data.controller;
 
+import com.shev.amazon_data.model.Item;
 import com.shev.amazon_data.model.LapTop;
 import com.shev.amazon_data.service.AmazonServiceItemRetrieve;
 import com.shev.amazon_data.service.BuyingService;
@@ -70,7 +71,12 @@ public class Controller {
         String itemUrl = SearchAmazonService.searchByASIN(asinText.getText());
         if(itemUrl!=null){
             AmazonServiceItemRetrieve amazonService = new AmazonServiceItemRetrieve(itemUrl);
-            resultSearchItemInfo.appendText(amazonService.getLapTop().toString().trim());
+            Item item = amazonService.getItem();
+            if (item!=null) {
+                resultSearchItemInfo.appendText(item.toString().trim());
+            }else {
+                resultSearchItemInfo.appendText("Yor search did not match any product");
+            }
         }else {
             resultSearchItemInfo.appendText("Yor search did not match any product");
         }
@@ -79,9 +85,9 @@ public class Controller {
     private static void getDataByLink(TextArea resultSearchItemInfo, TextField linkText) {
         resultSearchItemInfo.clear();
         AmazonServiceItemRetrieve amazonService = new AmazonServiceItemRetrieve(linkText.getText());
-        LapTop lapTop = amazonService.getLapTop();
-        if(lapTop!=null){
-            resultSearchItemInfo.appendText(amazonService.getLapTop().toString().trim());
+        Item item = amazonService.getItem();
+        if(item!=null){
+            resultSearchItemInfo.appendText(item.toString().trim());
         }else {
             resultSearchItemInfo.appendText("link does not match criteria");
         }
