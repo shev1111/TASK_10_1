@@ -5,15 +5,25 @@ public abstract class Item {
     private String productTitle;
     private int priceCents;
     private String availability;
+    private String url;
 
-    public Item(String asin, String productTitle, int priceCents, String availability) {
+    public Item(String asin, String productTitle, int priceCents, String availability, String url) {
         this.asin = asin;
         this.productTitle = productTitle;
         this.priceCents = priceCents;
         this.availability = availability;
+        this.url = url;
     }
 
     public Item() {
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getAsin() {

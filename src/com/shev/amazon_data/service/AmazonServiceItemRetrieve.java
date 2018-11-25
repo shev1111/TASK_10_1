@@ -11,7 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -147,7 +146,7 @@ public class AmazonServiceItemRetrieve {
             return new SimpleItem(getASIN(),
                     getProductTitle(),
                     getPriceCents(),
-                    getAvailability());
+                    getAvailability(), this.url);
         }
         logger.error("Simple object was not created, check url "+this.url);
         return null;
@@ -161,7 +160,7 @@ public class AmazonServiceItemRetrieve {
                     getProductTitle(),
                     getPriceCents(),
                     getAvailability(),
-                    lapTopTechSpec());
+                    lapTopTechSpec(), this.url);
         }
         logger.error("LapTop object was not created, check url "+this.url);
         return null;

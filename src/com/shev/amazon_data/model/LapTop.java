@@ -3,8 +3,8 @@ package com.shev.amazon_data.model;
 public class LapTop extends Item {
     private LapTopTechSpec techSpec;
 
-    public LapTop(String asin, String productTitle, int price, String availability, LapTopTechSpec techSpec) {
-        super(asin, productTitle, price, availability);
+    public LapTop(String asin, String productTitle, int price, String availability, LapTopTechSpec techSpec, String url) {
+        super(asin, productTitle, price, availability, url);
         this.techSpec = techSpec;
     }
 
