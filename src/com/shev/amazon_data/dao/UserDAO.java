@@ -12,7 +12,7 @@ public class UserDAO {
     private static Logger logger = Logger.getLogger(UserDAO.class.getName());
 
     public static User createUser(User user){
-        String sql = "INSERT INTO users (login, user_name, password) VALUES(?,?,?)";
+        String sql = "INSERT INTO users (login, user_name, pass) VALUES(?,?,?)";
         try (Connection connection = ConnectionDB.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,user.getLogin());
@@ -29,7 +29,7 @@ public class UserDAO {
     }
 
     public static User retrieveUser(String user_login){
-        String sql = "SELECT login, user_name, password FROM users WHERE login =?";
+        String sql = "SELECT login, user_name, pass FROM users WHERE login =?";
         User user = new User();
         try (Connection connection = ConnectionDB.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -38,7 +38,7 @@ public class UserDAO {
             resultSet.next();
             user.setLogin(resultSet.getString("login"));
             user.setUser_name(resultSet.getString("user_name"));
-            user.setPasword(resultSet.getString("password"));
+            user.setPasword(resultSet.getString("pass"));
             resultSet.close();
             logger.info("User with login "+user.getLogin()+" was received");
             return user;
@@ -50,7 +50,7 @@ public class UserDAO {
     }
 
     public static boolean updateUser(User user){
-        String sql = "UPDATE users SET user_name=?, password=? WHERE login =?";
+        String sql = "UPDATE users SET user_name=?, pass=? WHERE login =?";
         try (Connection connection = ConnectionDB.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,user.getUser_name());
