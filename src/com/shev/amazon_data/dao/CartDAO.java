@@ -51,22 +51,6 @@ public class CartDAO {
         return new CartItem();
     }
 
-    public static boolean updateCartItemByID(CartItem item){
-        String sql = "UPDATE cart SET user_login=? WHERE id=?";
-        try (Connection connection = ConnectionDB.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,item.getUser_login());
-            preparedStatement.setInt(2,item.getItem_order_id());
-            preparedStatement.execute();
-            logger.info("Cart Item "+item.getItem_asin()+" was updated");
-            return true;
-        } catch (SQLException e) {
-            logger.error("SQL error: "+e.getMessage());
-        }
-        logger.error("Cart Item "+item.getItem_asin()+" was not updated");
-        return false;
-    }
-
     public static boolean deleteItemByID(String id){
         String sql = "DELETE FROM cart WHERE id =?";
         try (Connection connection = ConnectionDB.getConnection()) {

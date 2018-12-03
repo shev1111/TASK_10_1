@@ -49,12 +49,4 @@ public class CartDAOTest {
         assertTrue(delete);
     }
 
-    @Test
-    public void updateCartItemByID() throws Exception {
-    }
-
-    @Test
-    public void deleteItemByID() throws Exception {
-    }
-
 }
