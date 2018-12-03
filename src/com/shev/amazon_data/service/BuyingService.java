@@ -1,5 +1,12 @@
 package com.shev.amazon_data.service;
 
+import com.shev.amazon_data.dao.CartDAO;
+import com.shev.amazon_data.dao.ItemsDAO;
+import com.shev.amazon_data.dao.UserDAO;
+import com.shev.amazon_data.model.CartItem;
+import com.shev.amazon_data.model.Item;
+import com.shev.amazon_data.model.SimpleItem;
+import com.shev.amazon_data.model.User;
 import com.shev.amazon_data.utils.selenium_util.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -14,8 +21,31 @@ public class BuyingService {
         WebDriver webDriver = RegisterService.signInUser(login, password);
         if(webDriver==null)return null;
         boolean addToCart = addToCart(link, webDriver);
-        if (addToCart) return webDriver;
+        if (addToCart){
+            setUserToDB(login, password);
+            setItemToDB(link, login);
+            return webDriver;
+        }
         return null;
+    }
+
+    private static void setItemToDB(String link, String login) {
+        AmazonServiceItemRetrieve itemRetrieve = new AmazonServiceItemRetrieve(link);
+        Item item = itemRetrieve.getSimpleItem();
+        if(item.getAsin()!=null){
+            ItemsDAO.insertItem(item);
+            CartItem cartItem = new CartItem(item.getAsin(), login);
+            CartDAO.insertCartItem(cartItem);
+        }
+    }
+
+    private static void setUserToDB(String login, String password) {
+        User user = new User();
+        user.setLogin(login);
+        user.setPasword(password);
+        int nameIndex = login.indexOf("@");
+        user.setUser_name(login.substring(0,nameIndex));
+        UserDAO.createUser(user);
     }
 
     public static WebDriver addItemToCartByASIN(String asin, String login, String password){
@@ -24,7 +54,11 @@ public class BuyingService {
             WebDriver webDriver = RegisterService.signInUser(login, password);
             if(webDriver==null)return null;
             boolean addToCart = addToCart(itemLink, webDriver);
-            if(addToCart)return webDriver;
+            if(addToCart){
+                setUserToDB(login, password);
+                setItemToDB(itemLink, login);
+                return webDriver;
+            }
             webDriver.quit();
             return null;
         }
