@@ -16,7 +16,6 @@ public class CartDAOTest {
     private static String testUrl = "https://www.amazon.com/laptop/test";
     private static String testTitle = "Test";
     private static String testAvailability = "In Stock";
-    private static String testUpdatedTitle = "Test1";
     private static int testPrice = 12345;
     @Test
     public void insertCartItem() throws Exception {

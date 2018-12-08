@@ -19,12 +19,6 @@ public class MainView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-//        primaryStage.widthProperty().addListener((observable, oldValue, newValue) ->
-//                System.out.println("resize!!!")
-//        );
-
-
         Parent root = FXMLLoader.load(getClass().getResource("view/view.fxml"));
         primaryStage.setScene(new Scene(root,500,250));
         primaryStage.setResizable(false);
