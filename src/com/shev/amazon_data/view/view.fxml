@@ -59,6 +59,20 @@
             </AnchorPane>
           </content>
         </Tab>
+        <Tab text="Export from cart by period">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TextField id="loginCartText" fx:id="fromTime" layoutX="60.0" layoutY="26.0" prefWidth="135.0" promptText="2018-12-03 19:27:11" text="2018-12-03 19:27:11" />
+                <Text layoutX="14.0" layoutY="42.0" scaleX="1.0" scaleY="1.000006265295975" strokeType="OUTSIDE" strokeWidth="0.0" text="FROM" />
+                <Button id="addToCartButton" fx:id="csvButton" layoutX="14.0" layoutY="159.0" mnemonicParsing="false" onAction="#exportCSV" text="Form CSV" />
+                <TextArea id="resultAddItemToCart" fx:id="resultExport" layoutX="291.0" layoutY="26.0" prefHeight="180.0" prefWidth="200.0" wrapText="true" />
+                <Text layoutX="15.0" layoutY="74.0" scaleX="1.0" scaleY="1.000006265295975" strokeType="OUTSIDE" strokeWidth="0.0" text="TO" />
+                <TextField id="loginCartText" fx:id="toTime" layoutX="60.0" layoutY="55.0" prefWidth="135.0" promptText="2018-12-08 10:30:45" text="2018-12-08 10:30:45" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
       </tabs>
     </TabPane>
   </children>
