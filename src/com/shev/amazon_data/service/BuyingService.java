@@ -14,6 +14,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class BuyingService {
     private static Logger logger = Logger.getLogger(BuyingService.class.getName());
 
@@ -69,7 +73,7 @@ public class BuyingService {
         try {
             webDriver.get(itemLink);
             Timer.waitSeconds(4);
-            WebElement addToCartElement = webDriver.findElement(By.id("add-to-cart-button"));
+            WebElement addToCartElement = webDriver.findElement(By.id("add-to-cart-button-ubb"));
             addToCartElement.click();
             Timer.waitSeconds(4);
             if(checkIfItemAddedToCart(webDriver)) return true;
@@ -105,6 +109,20 @@ public class BuyingService {
             String errMessage = e.getMessage();
             int spaceIndex = errMessage.indexOf("\n");
             logger.error(errMessage.substring(0,spaceIndex));
+        }
+        return false;
+    }
+
+    public static boolean CartReportByPeriodCSV(String from, String to){
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            Date dateFrom = dateFormat.parse(from);
+            Date dateTo = dateFormat.parse(to);
+            if(dateFrom.getTime()>dateTo.getTime())return false;
+            return CartDAO.cartByPeriodToCSV( dateFrom.getTime(), dateTo.getTime());
+        } catch (ParseException e) {
+            logger.error("Parse exception: "+e.getMessage());
         }
         return false;
     }
