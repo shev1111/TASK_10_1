@@ -46,6 +46,13 @@ public class Controller {
     private RadioButton linkCartRbutton;
     @FXML
     private RadioButton asinCartRbutton;
+    @FXML
+    private TextField toTime;
+    @FXML
+    private TextField fromTime;
+    @FXML
+    private TextArea resultExport;
+
 
     @FXML
     private void initialize(){
@@ -132,6 +139,18 @@ public class Controller {
             resultAddItemToCart.clear();
             resultAddItemToCart.appendText("Item was not added to cart. Check your login, password and data");
         }
+    }
+
+    @FXML
+    private void exportCSV(){
+        boolean exportResult = BuyingService.CartReportByPeriodCSV(fromTime.getText(),toTime.getText());
+        resultExport.clear();
+        if(exportResult){
+            resultExport.appendText("CSV file was created to src\\com\\shev\\amazon_data\\data");
+        }else {
+            resultExport.appendText("CSV file was not created check your data time");
+        }
+
     }
 
 }
